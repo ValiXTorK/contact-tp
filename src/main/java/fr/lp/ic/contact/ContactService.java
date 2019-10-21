@@ -1,6 +1,7 @@
 package fr.lp.ic.contact;
 
 import java.util.List;
+import java.util.Optional;
 
 import fr.lp.ic.contact.dao.ContactDaoImpl;
 import fr.lp.ic.contact.dao.IContactDao;
@@ -15,6 +16,9 @@ import fr.lp.ic.contact.model.Contact;
  *
  */
 public class ContactService {
+
+	private static final int MAX_NAME_CHARS = 40;
+	private static final int MIN_NAME_CHARS = 3;
 
 	// Ne pas bouger
 	private IContactDao contactDao = new ContactDaoImpl();
@@ -49,7 +53,20 @@ public class ContactService {
 	 *                          lève une ContactException
 	 */
 	public void newContact(String name, String phoneNumber, String email) throws ContactException {
+		if(name == null || name.length() < MIN_NAME_CHARS || name.length() > MAX_NAME_CHARS){
+			throw new IllegalArgumentException("Name should be in a valid form...");
+		}
 
+		Optional<Contact> byName = contactDao.findByName(name);
+		if(byName.isPresent()){
+			throw new ContactException();
+		}
+
+		Contact contact = new Contact();
+		contact.setName(name.toUpperCase());
+		contact.setEmail(email);
+		contact.setPhone(phoneNumber);
+		contactDao.save(contact);
 	}
 
 	/**
@@ -69,6 +86,38 @@ public class ContactService {
 	public void updateContact(String name, String newName, String phoneNumber, String email)
 			throws ContactException, ContactNotFoundException {
 
+		if(name == null){
+			throw new IllegalArgumentException("Name cannot be null.");
+		}
+
+		/*Optional<Contact> byName = contactDao.findByName(name);
+
+		if(!byName.isPresent()){
+			throw new ContactNotFoundException();
+		}*/
+		contactDao.findByName(name).orElseThrow(ContactNotFoundException::new);
+
+		if(newName == null || newName.length() < MIN_NAME_CHARS || newName.length() > MAX_NAME_CHARS){
+			throw new IllegalArgumentException("NewName must be in a valid format");
+		}
+
+		/*if(!newName.equalsIgnoreCase(name)){
+			Optional<Contact> byNewName = contactDao.findByName(newName);
+
+			if(byNewName.isPresent()){
+				throw new ContactException();
+			}
+		}*/
+		if(!newName.equalsIgnoreCase(name) && contactDao.findByName(newName).isPresent()){
+				throw new ContactException();
+		}
+
+		Contact contact = new Contact();
+		contact.setName(newName.toUpperCase());
+		contact.setPhone(phoneNumber);
+		contact.setEmail(email);
+
+		contactDao.update(name, contact);
 	}
 
 	/**
@@ -78,8 +127,19 @@ public class ContactService {
 	 * @throws ContactNotFoundException Si l'utilisateur n'existe pas on lève une
 	 *                                  ContactNotFoundException
 	 */
-	public void deleteContact(String name) throws ContactException {
+	public void deleteContact(String name) throws ContactNotFoundException {
 
+		if(name == null){
+			throw new IllegalArgumentException("Name cannot be null.");
+		}
+
+		Optional<Contact> byName = contactDao.findByName(name);
+
+		if(!byName.isPresent()){
+			throw new ContactNotFoundException();
+		}
+
+		contactDao.delete(name);
 	}
 
 }
