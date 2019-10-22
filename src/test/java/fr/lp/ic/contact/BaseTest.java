@@ -6,9 +6,9 @@ import org.junit.Test;
 
 public class BaseTest {
 
-	@Test
+/*	@Test
 	public void shouldTestEmpty() {
 		//Empty test 
 		Assert.fail("First empty test");
-	}
+	}*/
 }
