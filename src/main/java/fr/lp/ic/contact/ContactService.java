@@ -106,13 +106,13 @@ public class ContactService {
         if (phoneNumber == null || phoneNumber.length() != 10){
         	throw new IllegalArgumentException("Phone number doesn't fit 10 numbers.");
 		}
-        if (!phoneNumber.equals("/^02[0-9]{8}$/")){
-        	throw new IllegalArgumentException("Phone number doesn't follow the format rule.");
-		}
+        if (!PhoneValidatorUtils.validate(phoneNumber)){
+            throw new IllegalArgumentException("Phone number doesn't follow the format rule.");
+        }
 
-        if (!email.equals("/^[a-zA-Z0-9]{1,25}@[a-zA-Z0-9]{1,25}\\.[a-zA-Z0-9]{1,5}$/")){
-        	throw new IllegalArgumentException("Email doesn't follow the email format rule.");
-		}
+        if (!EmailValidatorUtils.validate(email)){
+            throw new IllegalArgumentException("Email doesn't follow the email format rule.");
+        }
 
 
 

@@ -94,7 +94,7 @@ public class ContactServiceMockTest {
         EasyMock.replay(contactDao);
 
         //Test
-        contactService.updateContact(name, name, "0214545478", "test1@yopmail.com");
+        contactService.updateContact(name, name, "0203040506", "test1@yopmail.com");
     }
 
     @Test(expected = ContactException.class)
@@ -129,7 +129,7 @@ public class ContactServiceMockTest {
         ////EasyMock.replay(contactDao.update(EasyMock.eq(name), EasyMock.anyObject(Contact.class)));
 
         //Test
-        contactService.updateContact(name, newName, "0214545478", "test1@yopmail.com");
+        contactService.updateContact(name, newName, "0203040506", "test1@yopmail.com");
     }
 
 
