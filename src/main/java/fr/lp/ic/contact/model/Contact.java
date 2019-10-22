@@ -1,7 +1,9 @@
 package fr.lp.ic.contact.model;
 
+@SuppressWarnings("ALL")
 public class Contact {
 
+	@SuppressWarnings("checkstyle:FileTabCharacter")
 	private String name;
 	private String phone;
 	private String email;
@@ -9,6 +11,7 @@ public class Contact {
 	public String getName() {
 		return name;
 	}
+	@SuppressWarnings("CheckStyle")
 	public void setName(String name) {
 		this.name = name;
 	}

@@ -29,22 +29,22 @@ public class ContactDaoImpl implements IContactDao {
 				.filter(x -> x.getName().equalsIgnoreCase(name))//
 				.findFirst();
 	}
-	
+
 	@Override
 	public boolean update(String name, Contact contact) {
 		Optional<Contact> foundContact = findWithName(name);
 		foundContact.ifPresent(x->{
 			x.setPhone(contact.getPhone());
 			x.setEmail(contact.getEmail());
-		});	
+		});
 		return !foundContact.isPresent();
 	}
-	
+
 	@Override
 	public boolean save(Contact contact) {
 		Optional<Contact> foundContact = findWithName(contact.getName());
 		if(!foundContact.isPresent()) {
-		 return	contacts.add(contact);
+			return	contacts.add(contact);
 		}
 		return false;
 	}
@@ -53,9 +53,9 @@ public class ContactDaoImpl implements IContactDao {
 	public boolean delete(String name) {
 		Optional<Contact> foundContact = findWithName(name);
 		if(!foundContact.isPresent()) {
-		 return	contacts.remove(foundContact.get());
+			return	contacts.remove(foundContact.get());
 		}
 		return false;
 	}
-	
+
 }

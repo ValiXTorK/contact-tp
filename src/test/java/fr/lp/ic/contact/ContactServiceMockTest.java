@@ -1,4 +1,5 @@
 package fr.lp.ic.contact;
+
 import fr.lp.ic.contact.dao.IContactDao;
 import fr.lp.ic.contact.exception.ContactException;
 import fr.lp.ic.contact.exception.ContactNotFoundException;
@@ -22,7 +23,7 @@ public class ContactServiceMockTest {
     IContactDao contactDao;
 
     @Test(expected = ContactException.class)
-    public void shouldFailIfNameAlreadyExists() throws ContactException{
+    public void shouldFailIfNameAlreadyExists() throws ContactException {
         String name = "Anthony";
         //Enregistrement des comportements
         EasyMock.expect(contactDao.findByName(name)).andReturn(Optional.of(new Contact()));
@@ -35,7 +36,7 @@ public class ContactServiceMockTest {
     }
 
     @Test
-    public void shouldInsert() throws ContactException{
+    public void shouldInsert() throws ContactException {
         String name = "Anthony";
         //Enregistrement des comportements
         EasyMock.expect(contactDao.findByName(name)).andReturn(Optional.empty());
