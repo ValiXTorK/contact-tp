@@ -10,6 +10,7 @@ import fr.lp.ic.contact.dao.IContactDao;
 import fr.lp.ic.contact.exception.ContactException;
 import fr.lp.ic.contact.exception.ContactNotFoundException;
 import fr.lp.ic.contact.model.Contact;
+import fr.lp.ic.contact.validators.EmailValidatorUtils;
 import fr.lp.ic.contact.validators.PhoneValidatorUtils;
 
 /**
@@ -70,7 +71,8 @@ public class ContactService {
 		if (!PhoneValidatorUtils.validate(phoneNumber)){
 			throw new IllegalArgumentException("Phone number doesn't follow the format rule.");
 		}
-		if (!email.equals("/^[a-zA-Z0-9]{1,25}@[a-zA-Z0-9]{1,25}\\.[a-zA-Z0-9]{1,5}$/")){
+
+		if (!EmailValidatorUtils.validate(email)){
 			throw new IllegalArgumentException("Email doesn't follow the email format rule.");
 		}
 
